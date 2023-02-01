@@ -47,7 +47,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3318517607951106009}
   m_Layer: 0
-  m_Name: Predio5B1
+  m_Name: Predio5B1_Verde
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1519,7 +1519,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5979353776774138638, guid: 2e93176eceac5a64bac3ae792ac20fe3, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 15.3900385
+      value: 15.410037
       objectReference: {fileID: 0}
     - target: {fileID: 5979353776774138638, guid: 2e93176eceac5a64bac3ae792ac20fe3, type: 3}
       propertyPath: m_LocalPosition.y
@@ -2439,7 +2439,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2445059249996362878, guid: 08507144dd6b65d47a73756b15913d25, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 15.395401
+      value: 15.395399
       objectReference: {fileID: 0}
     - target: {fileID: 2445059249996362878, guid: 08507144dd6b65d47a73756b15913d25, type: 3}
       propertyPath: m_LocalPosition.y
