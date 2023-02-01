@@ -1,9 +1,14 @@
 fileFormatVersion: 2
-guid: 37992a9d9412a9d419f8d94f27869a18
+guid: 39c274237ca72854b84d3ac28bbda4c4
 ModelImporter:
   serializedVersion: 21300
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Rua_2_Faixas
+    second: {fileID: 2100000, guid: a59752cd81e5ff8419672e35b33de68e, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
