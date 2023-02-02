@@ -1,19 +1,14 @@
 fileFormatVersion: 2
-guid: 404fb5c9b6f6b6646829d3bb12e3b721
+guid: 781706c6130f7e14db460d5c7cec4b4d
 ModelImporter:
   serializedVersion: 21300
   internalIDToNameTable: []
-  externalObjects:
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: Cruzamento_T_2x2_Faixas
-    second: {fileID: 2100000, guid: 9ff5638428eabd541a7a1085c4779cf5, type: 2}
+  externalObjects: {}
   materials:
     materialImportMode: 2
     materialName: 0
     materialSearch: 1
-    materialLocation: 1
+    materialLocation: 0
   animations:
     legacyGenerateAnimations: 4
     bakeSimulation: 0

@@ -1,19 +1,14 @@
 fileFormatVersion: 2
-guid: ecdc4d2dd801a4f42903c2471e772dbf
+guid: f89c83611aeec264da06714df4150c6d
 ModelImporter:
   serializedVersion: 21300
   internalIDToNameTable: []
-  externalObjects:
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: Curva_2_Faixas
-    second: {fileID: 2100000, guid: 3525feb79eea13b428f78dc2eb9e8bd3, type: 2}
+  externalObjects: {}
   materials:
     materialImportMode: 2
     materialName: 0
     materialSearch: 1
-    materialLocation: 1
+    materialLocation: 0
   animations:
     legacyGenerateAnimations: 4
     bakeSimulation: 0
