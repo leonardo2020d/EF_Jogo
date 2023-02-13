@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using StarterAssets;
 
 public class CarroControleTotal : MonoBehaviour
 {
@@ -13,6 +15,8 @@ public class CarroControleTotal : MonoBehaviour
     public float velocidade;
     float angulo;
     public float forcaFreio = 100;
+
+    
     void Start()
     {
         corpoRigido = GetComponent<Rigidbody>();
@@ -20,12 +24,17 @@ public class CarroControleTotal : MonoBehaviour
 
         
     }
+    
 
 
     void Update()
     {
+       
+        if (GameEvents.instance.estaCarro == true)
+        {
             direcao = Input.GetAxis("Horizontal");
-            if (direcao > 0.7f || direcao < 0.7f)
+
+            if (direcao > 0|| direcao < 0)
             {
                 angulo = Mathf.Lerp(angulo, direcao, Time.deltaTime * 4);
             }
@@ -33,16 +42,18 @@ public class CarroControleTotal : MonoBehaviour
             {
                 angulo = Mathf.Lerp(angulo, direcao, Time.deltaTime * 2);
             }
-        
+        }
         velocidade = corpoRigido.velocity.magnitude * 3.6f;
     }
     private void FixedUpdate()
     {
-        rodasCollider[0].steerAngle = angulo * 40;
-        rodasCollider[1].steerAngle = angulo * 40;
-        rodasCollider[2].motorTorque = Input.GetAxis("Vertical") * torque * Time.deltaTime;
-        rodasCollider[3].motorTorque = Input.GetAxis("Vertical") * torque * Time.deltaTime;
-
+        if (GameEvents.instance.estaCarro == true)
+        {
+            rodasCollider[0].steerAngle = angulo * 40;
+            rodasCollider[1].steerAngle = angulo * 40;
+            rodasCollider[2].motorTorque = Input.GetAxis("Vertical") * torque * Time.deltaTime;
+            rodasCollider[3].motorTorque = Input.GetAxis("Vertical") * torque * Time.deltaTime;
+        }
         for (int i = 0; i < rodasCollider.Length; i++)
         {
             Vector3 pos;
@@ -51,7 +62,8 @@ public class CarroControleTotal : MonoBehaviour
             rodasMesh[i].position = pos;
             rodasMesh[i].rotation = rot;
         }
-       
+        if (GameEvents.instance.estaCarro==true)
+        {
             if (Input.GetKey(KeyCode.Space))
             {
                 rodasCollider[2].brakeTorque = forcaFreio;
@@ -65,9 +77,15 @@ public class CarroControleTotal : MonoBehaviour
             }
             if (Input.GetAxis("Vertical") != 0)
             {
-                print("AAAAAAAAAAAa");
                 rodasCollider[2].brakeTorque = 0;
                 rodasCollider[3].brakeTorque = 0;
             }
+
+        }
+        else
+        {
+            rodasCollider[2].brakeTorque = forcaFreio;
+            rodasCollider[3].brakeTorque = forcaFreio;
+        }
     }
 }
