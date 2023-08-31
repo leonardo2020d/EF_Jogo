@@ -8,6 +8,8 @@ TagManager:
   - CinemachineTarget
   - Enemy
   - Car
+  - Passageiro
+  - Destino
   layers:
   - Default
   - TransparentFX

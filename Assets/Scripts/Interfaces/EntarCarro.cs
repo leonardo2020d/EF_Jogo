@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EntarCarro : MonoBehaviour
+public class EntarCarro : MonoBehaviour, IInteractable
 {
     public GameObject player;
     public GameObject carro;
@@ -18,7 +18,7 @@ public class EntarCarro : MonoBehaviour
             panel.SetActive(false);
             if (Input.GetKeyDown(KeyCode.F))
             {
-                
+                GameEvents.instance.interfaceCar(false);
                 GameEvents.instance.estaCarro = false;
                 player.SetActive(true);
                 cameraCAr.SetActive(false);
@@ -27,24 +27,25 @@ public class EntarCarro : MonoBehaviour
             }
         }
         else{
-            if(distance < 2)
+            if(distance > 2)
+            {
+                panel.SetActive(false);
+            }
+            else
             {
                 panel.SetActive(true);
-                 if (Input.GetKey(KeyCode.E))
-                  {
-                player.transform.parent = carro.transform;
-                GameEvents.instance.estaCarro = true;
-                player.SetActive(false);
-                cameraCAr.SetActive(true);
-                 }
-              
-
             }
-              else
-                {
-                    panel.SetActive(false);
-                }
+            
+
         }
     }
+    public void Interact()
+    {
 
+        GameEvents.instance.interfaceCar(true);
+        player.transform.parent = carro.transform;
+        GameEvents.instance.estaCarro = true;
+        player.SetActive(false);
+        cameraCAr.SetActive(true);
+    }
 }

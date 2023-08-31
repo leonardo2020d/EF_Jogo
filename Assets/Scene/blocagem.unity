@@ -3427,6 +3427,10 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[2]
       value: 
       objectReference: {fileID: 2100000, guid: 3a692250a643e444d91f63384a9ca8f2, type: 2}
+    - target: {fileID: 7470253202262518200, guid: 1795a4372b18bd64a8d7add5573ab9c7, type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 9082191331135604110, guid: 1795a4372b18bd64a8d7add5573ab9c7, type: 3}
       propertyPath: m_DefaultBlend.m_Time
       value: 1

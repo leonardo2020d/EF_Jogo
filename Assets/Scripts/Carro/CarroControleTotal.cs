@@ -15,26 +15,32 @@ public class CarroControleTotal : MonoBehaviour
     public float velocidade;
     float angulo;
     public float forcaFreio = 100;
+    public GerenciadorBotoes passageiroAtual;
+ 
+    private bool temPassageiro = false;
 
-    
+    public float alcanceParaPegarPassageiro = 2f;
+
+
     void Start()
     {
         corpoRigido = GetComponent<Rigidbody>();
         corpoRigido.mass = peso;
-
         
+
+
     }
-    
+
 
 
     void Update()
     {
-       
+
         if (GameEvents.instance.estaCarro == true)
         {
             direcao = Input.GetAxis("Horizontal");
 
-            if (direcao > 0|| direcao < 0)
+            if (direcao > 0 || direcao < 0)
             {
                 angulo = Mathf.Lerp(angulo, direcao, Time.deltaTime * 4);
             }
@@ -44,6 +50,7 @@ public class CarroControleTotal : MonoBehaviour
             }
         }
         velocidade = corpoRigido.velocity.magnitude * 3.6f;
+      
     }
     private void FixedUpdate()
     {
@@ -62,7 +69,7 @@ public class CarroControleTotal : MonoBehaviour
             rodasMesh[i].position = pos;
             rodasMesh[i].rotation = rot;
         }
-        if (GameEvents.instance.estaCarro==true)
+        if (GameEvents.instance.estaCarro == true)
         {
             if (Input.GetKey(KeyCode.Space))
             {
@@ -86,6 +93,60 @@ public class CarroControleTotal : MonoBehaviour
         {
             rodasCollider[2].brakeTorque = forcaFreio;
             rodasCollider[3].brakeTorque = forcaFreio;
+        }
+
+    }
+    public void PegarPassageiro(Passageiro passageiro)
+    {
+        passageiroAtual.passageiroAtual = passageiro;
+        temPassageiro = true;
+
+        passageiro.gameObject.SetActive(false);
+        
+
+    }
+   
+    public void PassageiroEntregue()
+    {
+
+        if (passageiroAtual != null)
+        {
+            GameEvents.instance.Dinheiro += passageiroAtual.passageiroAtual.preco;
+          //Destroy(passageiroAtual.passageiroAtual.destino);
+            temPassageiro = false;
+            passageiroAtual.passageiroAtual.transform.position = passageiroAtual.passageiroAtual.destino.position;
+            passageiroAtual.passageiroAtual.gameObject.SetActive(true);
+            passageiroAtual.passageiroAtual.transform.GetChild(0).gameObject.SetActive(false);
+            passageiroAtual.passageiroAtual.transform.GetChild(1).gameObject.SetActive(false);
+          
+            passageiroAtual = null;
+        }
+      
+
+
+    }
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.gameObject.CompareTag("Passageiro"))
+        {
+       
+            if (velocidade < 1&& passageiroAtual.passageiroAtual.corridaAceita==true )
+            {
+                PegarPassageiro(passageiroAtual.passageiroAtual);
+            }
+            else
+            {
+                print("passageiro errado");
+            }
+        }
+        if (other.gameObject.CompareTag("Destino"))
+        {
+           
+            if (velocidade < 1 && temPassageiro)
+            {
+                PassageiroEntregue();
+                print("A");
+            }
         }
     }
 }
