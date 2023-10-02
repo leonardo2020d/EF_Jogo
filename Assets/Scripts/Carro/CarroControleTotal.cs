@@ -142,6 +142,7 @@ public class CarroControleTotal : MonoBehaviour
 
         passageiro.gameObject.SetActive(false);
         seta.target = passageiroAtual.passageiroAtual.destino;
+        seta.gameObject.SetActive(true);
 
         
 
@@ -159,12 +160,13 @@ public class CarroControleTotal : MonoBehaviour
             passageiroAtual.passageiroAtual.gameObject.SetActive(true);
             passageiroAtual.passageiroAtual.transform.GetChild(0).gameObject.SetActive(false);
          
-            GameEvents.instance.Dinheiro += passageiroAtual.passageiroAtual.preco;
+            
             GameEvents.instance.pegouPassageiro = false;
             GameEvents.instance.Corridasconcludas = +1;
-
+            GameEvents.instance.EndRun();
+         
             passageiroAtual = null;
-            print("entregue");
+           
           
             
         }

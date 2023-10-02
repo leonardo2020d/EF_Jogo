@@ -11,6 +11,8 @@ public class UIManager : MonoBehaviour
     public int lucroFase;
     public GameObject panelPf;
     public GameObject panelRestart;
+    public TextMeshProUGUI corridasConcluidas;
+    public int totalCorridas;
 
     private bool menuAberto = false;
 
@@ -20,8 +22,10 @@ public class UIManager : MonoBehaviour
         hudCarro.SetActive(false);
         GameEvents.instance.OninterfaceCar += interfaceCarro;
         GameEvents.instance.OnEndPhase += EncerrarPhase;
+        GameEvents.instance.OnEndRun += ConcluiuCorrida;
         panelRestart.SetActive(false);
         panelPf.SetActive(false);
+        corridasConcluidas.text = GameEvents.instance.Corridasconcludas.ToString() + "/" + totalCorridas;
     }
 
     private void Update()
@@ -37,6 +41,7 @@ public class UIManager : MonoBehaviour
                     AbrirMenuOpcoes();
             }
         }
+       
      
      
     }
@@ -79,6 +84,10 @@ public class UIManager : MonoBehaviour
             panelPf.SetActive(false);
         }
     }
-  
+    public void ConcluiuCorrida()
+    {
+        corridasConcluidas.text = GameEvents.instance.Corridasconcludas.ToString() + "/" + totalCorridas;
+    }
+
 
 }

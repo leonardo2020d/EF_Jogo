@@ -31,7 +31,8 @@ public class GameEvents : MonoBehaviour
     public event Action OnEndPhase;
     public void EndPhase() => OnEndPhase?.Invoke();
 
-
+    public event Action OnEndRun;
+    public void EndRun() => OnEndRun?.Invoke();
     public enum Estado{
         Pausado,EmJogo
     }
@@ -62,6 +63,6 @@ public class GameEvents : MonoBehaviour
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
-
+    
 
 }
