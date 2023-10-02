@@ -5,30 +5,39 @@ using TMPro;
 public class UIManager : MonoBehaviour
 {
     public GameObject menuOpcoes;
-    public TextMeshProUGUI dinheiro;
-    public GameObject hudCarro;
-  
 
+    public GameObject hudCarro;
+
+    public int lucroFase;
+    public GameObject panelPf;
+    public GameObject panelRestart;
 
     private bool menuAberto = false;
 
     private void Start()
     {
-        dinheiro.text = GameEvents.instance.Dinheiro.ToString();
+      
         hudCarro.SetActive(false);
         GameEvents.instance.OninterfaceCar += interfaceCarro;
+        GameEvents.instance.OnEndPhase += EncerrarPhase;
+        panelRestart.SetActive(false);
+        panelPf.SetActive(false);
     }
 
     private void Update()
     {
-        // Verifique se a tecla Esc foi pressionada para abrir ou fechar o menu de opções
-        if (Input.GetKeyDown(KeyCode.Escape))
+
+        if (GameEvents.instance.pegouPassageiro == false)
         {
-            if (menuAberto)
-                FecharMenuOpcoes();
-            else
-                AbrirMenuOpcoes();
+            if (Input.GetKeyDown(KeyCode.F))
+            {
+                if (menuAberto)
+                    FecharMenuOpcoes();
+                else
+                    AbrirMenuOpcoes();
+            }
         }
+     
      
     }
 
@@ -58,6 +67,17 @@ public class UIManager : MonoBehaviour
         menuAberto = false;
       //  Cursor.lockState = CursorLockMode.Locked;
       //  Cursor.visible = false;
+    }
+    public void EncerrarPhase()
+    {
+        if (GameEvents.instance.VerificaLucro() >= lucroFase)
+        {
+            panelPf.SetActive(true);
+        }
+        else
+        {
+            panelPf.SetActive(false);
+        }
     }
   
 

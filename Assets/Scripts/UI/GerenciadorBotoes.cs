@@ -13,8 +13,10 @@ public class GerenciadorBotoes : MonoBehaviour
     public TextMeshProUGUI nomePas;
     public TextMeshProUGUI distancia;
     public Passageiro passageiroAtual;
+    public int i=0;
     
     public Transform player;
+    public ApontarSeta seta;
     private void Start()
     {
         panelCorridaSelecionada.SetActive(false);
@@ -22,7 +24,7 @@ public class GerenciadorBotoes : MonoBehaviour
     }
     public void CriarBotoes(List<Passageiro> listaObjetos)
     {
-        //LimparBotoes();
+        
         float buttonHeight = botaoObjetoPrefab.GetComponent<RectTransform>().rect.height;
         Vector3 offset = new Vector3(80, -15, 0); 
         foreach (Passageiro objeto in listaObjetos)
@@ -44,6 +46,8 @@ public class GerenciadorBotoes : MonoBehaviour
             offset += new Vector3(0, -buttonHeight, 0);
             Button botaoComponente = botaoGO.GetComponent<Button>();
             botaoComponente.onClick.AddListener(() => ExibirInformacoesObjeto(botaoGO));
+            objeto.id = i;
+            i++;
         }
     }
     private void ExibirInformacoesObjeto(GameObject botaoGO)
@@ -54,27 +58,37 @@ public class GerenciadorBotoes : MonoBehaviour
         {
             valor.text = "Valor: " + objeto.GetComponent<Passageiro>().preco.ToString();
             nomePas.text = "Nome: " + objeto.GetComponent<Passageiro>().nome.ToString();
-            distancia.text = "Distância: " + objeto.GetComponent<Passageiro>().distancia.ToString()+ "m";
+            distancia.text = "Distância: " + (objeto.GetComponent<Passageiro>().distancia/100)+ "Km";
             passageiroAtual = objeto.GetComponent<Passageiro>();
             objeto.GetComponent<Passageiro>().transform.GetChild(0).gameObject.SetActive(true);
-           
-       
-           
-            
-            
+            seta.gameObject.SetActive(true);
+            seta.target = objeto.GetComponent<Passageiro>().transform;
+
+            // = objeto.GetComponent<Passageiro>().id; ;
+
+
+
+
             Debug.Log("Informações do objeto: " + objeto.GetComponent<Passageiro>().nome);
         }
     }
     public void LimparBotoes()
     {
+        // Destrua todos os botões filhos do conteúdo do painel.
         foreach (Transform child in conteudoPainel)
         {
             Destroy(child.gameObject);
         }
+
+        // Limpe o dicionário de botões e reinicie o valor de 'i'.
+        botoesObjetos.Clear();
+        i = 0;
     }
     public void CorridaAceita()
     {
         passageiroAtual.corridaAceita = true;
+       
     }
+  
 
 }

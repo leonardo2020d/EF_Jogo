@@ -16,28 +16,39 @@ public class CarroControleTotal : MonoBehaviour
     float angulo;
     public float forcaFreio = 100;
     public GerenciadorBotoes passageiroAtual;
+    public int DefinirCorridas;
  
     private bool temPassageiro = false;
 
-    public float alcanceParaPegarPassageiro = 2f;
+   
+    private float gasTotal = 10;
+    private float gasAtual;
+    [SerializeField] private Gas barraGas;
 
-
+    private Vector3 startPosition; // A posição inicial do objeto.
+    private float distanciaPercorrida; 
+    private float distanciaPercorridaTotal;
+    public ApontarSeta seta;
+ 
+  
     void Start()
     {
         corpoRigido = GetComponent<Rigidbody>();
         corpoRigido.mass = peso;
-        
+        startPosition = transform.position;
+        gasAtual = gasTotal;
 
-
+        barraGas.ConsumiuGasolina(gasAtual, gasTotal);
     }
 
 
 
     void Update()
     {
-
+        
         if (GameEvents.instance.estaCarro == true)
         {
+           
             direcao = Input.GetAxis("Horizontal");
 
             if (direcao > 0 || direcao < 0)
@@ -49,13 +60,29 @@ public class CarroControleTotal : MonoBehaviour
                 angulo = Mathf.Lerp(angulo, direcao, Time.deltaTime * 2);
             }
         }
-        velocidade = corpoRigido.velocity.magnitude * 3.6f;
-      
+        else
+        {
+            seta.gameObject.SetActive(false);
+        }
+
+        if (GameEvents.instance.Corridasconcludas == DefinirCorridas)
+        {
+            GameEvents.instance.EndPhase();
+        }
     }
     private void FixedUpdate()
     {
+        velocidade = corpoRigido.velocity.magnitude * 3.6f;
         if (GameEvents.instance.estaCarro == true)
         {
+            if (velocidade <= 0.2f)
+            {
+                GameEvents.instance.podeDescer = true;
+            }
+            else
+            {
+                GameEvents.instance.podeDescer = false;
+            }
             rodasCollider[0].steerAngle = angulo * 40;
             rodasCollider[1].steerAngle = angulo * 40;
             rodasCollider[2].motorTorque = Input.GetAxis("Vertical") * torque * Time.deltaTime;
@@ -86,6 +113,17 @@ public class CarroControleTotal : MonoBehaviour
             {
                 rodasCollider[2].brakeTorque = 0;
                 rodasCollider[3].brakeTorque = 0;
+                distanciaPercorrida = Vector3.Distance(startPosition, transform.position);
+                distanciaPercorridaTotal += distanciaPercorrida;
+                if(distanciaPercorridaTotal >= 1000000)
+                {
+                    gasAtual -=1;
+                    barraGas.ConsumiuGasolina(gasAtual, gasTotal);
+                    distanciaPercorridaTotal = 0;
+                    print("zerou");
+                }
+                
+                
             }
 
         }
@@ -100,8 +138,11 @@ public class CarroControleTotal : MonoBehaviour
     {
         passageiroAtual.passageiroAtual = passageiro;
         temPassageiro = true;
+        GameEvents.instance.pegouPassageiro = true;
 
         passageiro.gameObject.SetActive(false);
+        seta.target = passageiroAtual.passageiroAtual.destino;
+
         
 
     }
@@ -117,10 +158,17 @@ public class CarroControleTotal : MonoBehaviour
             passageiroAtual.passageiroAtual.transform.position = passageiroAtual.passageiroAtual.destino.position;
             passageiroAtual.passageiroAtual.gameObject.SetActive(true);
             passageiroAtual.passageiroAtual.transform.GetChild(0).gameObject.SetActive(false);
-            passageiroAtual.passageiroAtual.transform.GetChild(1).gameObject.SetActive(false);
-          
+         
+            GameEvents.instance.Dinheiro += passageiroAtual.passageiroAtual.preco;
+            GameEvents.instance.pegouPassageiro = false;
+            GameEvents.instance.Corridasconcludas = +1;
+
             passageiroAtual = null;
+            print("entregue");
+          
+            
         }
+   
       
 
 
@@ -145,7 +193,12 @@ public class CarroControleTotal : MonoBehaviour
             if (velocidade < 1 && temPassageiro)
             {
                 PassageiroEntregue();
-                print("A");
+                other.gameObject.SetActive(false);
+                seta.gameObject.SetActive(false);
+                GameEvents.instance.passageiros.RemoveAt(GameEvents.instance.gerenciadorBotoes.passageiroAtual.id);
+                GameEvents.instance.gerenciadorBotoes.LimparBotoes();
+                GameEvents.instance.gerenciadorBotoes.CriarBotoes(GameEvents.instance.passageiros);
+               
             }
         }
     }

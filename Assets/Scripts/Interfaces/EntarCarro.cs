@@ -16,7 +16,7 @@ public class EntarCarro : MonoBehaviour, IInteractable
         if (GameEvents.instance.estaCarro == true)
         {
             panel.SetActive(false);
-            if (Input.GetKeyDown(KeyCode.F))
+            if (Input.GetKeyDown(KeyCode.Q)&& GameEvents.instance.podeDescer==true)
             {
                 GameEvents.instance.interfaceCar(false);
                 GameEvents.instance.estaCarro = false;

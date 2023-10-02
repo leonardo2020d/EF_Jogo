@@ -10,10 +10,15 @@ public class Passageiro : MonoBehaviour
     public float distancia;
     public Transform destino;
     public bool corridaAceita =false;
+    public float valorAsomar;
+    public int id;
+
     
     private void Start()
     {
+        
         distancia = Vector3.Distance(destino.position, transform.position);
-        preco = (distancia / 1000) * Random.Range(0.5f,2f);
+       
+        preco = (distancia / 100) *valorAsomar;
     }
 }
