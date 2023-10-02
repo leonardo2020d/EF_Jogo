@@ -165,7 +165,7 @@ public class CarroControleTotal : MonoBehaviour
             GameEvents.instance.Corridasconcludas = +1;
             GameEvents.instance.EndRun();
          
-            passageiroAtual = null;
+            passageiroAtual.passageiroAtual = null;
            
           
             
